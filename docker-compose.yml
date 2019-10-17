@@ -22,7 +22,13 @@ services:
       - /home/dot/work/docker/php/dokuwiki:/usr/share/nginx/html/dokuwiki
     restart: always
   cgi:
-    build: cgi
+    build:
+      context: cgi
+      args:
+        - http_proxy=${http_proxy}
+        - https_proxy=${https_proxy}
+        - HTTP_PROXY=${HTTP_PROXY}
+        - HTTPS_PROXY=${HTTPS_PROXY}
     volumes:
       - /home/dot/work/docker/cgi/dc:/usr/share/nginx/html/dc
     restart: always
