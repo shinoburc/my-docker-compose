@@ -32,3 +32,12 @@ services:
     volumes:
       - /home/dot/work/docker/cgi/dc:/usr/share/nginx/html/dc
     restart: always
+  node:
+    image: node:lts-alpine
+    ports:
+      - "3000:3000"
+    volumes:
+      - /home/dot/work/docker/node/ExpressRESTfulAPI:/src
+    working_dir: "/src"
+    command: [sh, -c, npm install && npm start]
+    restart: always
