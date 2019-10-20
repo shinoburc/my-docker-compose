@@ -40,4 +40,14 @@ services:
       - /home/dot/work/docker/node/ExpressRESTfulAPI:/src
     working_dir: "/src"
     command: [sh, -c, npm install && npm start]
+    depends_on:
+      - mongo
+    restart: always
+  mongo:
+    image: mongo:latest
+    ports:
+      - 27017:27017
+    volumes:
+      - ./mongo/db:/data/db
+      - ./mongo/configdb:/data/configdb
     restart: always
