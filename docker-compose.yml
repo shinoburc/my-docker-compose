@@ -12,6 +12,7 @@ services:
       - /home/dot/work/docker/nginx/favicon.ico:/usr/share/nginx/html/favicon.ico
       - /home/dot/work/docker/php/dokuwiki:/usr/share/nginx/html/dokuwiki
       - /home/dot/work/docker/cgi/dc:/usr/share/nginx/html/dc
+      - /home/dot/work/docker/octopress/public:/usr/share/nginx/html/blog
     depends_on:
       - php
       - cgi
