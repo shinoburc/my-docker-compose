@@ -1,18 +1,48 @@
 version: '3'
 
 services:
+  nginx-proxy:
+    image: jwilder/nginx-proxy
+    container_name: nginx-proxy
+    labels:
+      com.github.jrcs.letsencrypt_nginx_proxy_companion.nginx_proxy: "true"
+    ports:
+      - "443:443"
+    volumes:
+      - certs:/etc/nginx/certs:ro
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/tmp/docker.sock:ro
+    restart: always
+  letsencrypt:
+    image: jrcs/letsencrypt-nginx-proxy-companion
+    container_name: letsencrypt
+    volumes:
+      - certs:/etc/nginx/certs
+      - vhostd:/etc/nginx/vhost.d
+      - html:/usr/share/nginx/html
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+    environment:
+      - NGINX_PROXY_CONTAINER=nginx-proxy
+    restart: always
   nginx:
     image: nginx
     ports:
       - "80:80"
       - "8080:8080"
     volumes:
+      - certs:/etc/nginx/certs:ro
       - /home/dot:/home/dot
       - /home/dot/work/docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
       - /home/dot/work/docker/nginx/favicon.ico:/usr/share/nginx/html/favicon.ico
       - /home/dot/work/docker/php/dokuwiki:/usr/share/nginx/html/dokuwiki
       - /home/dot/work/docker/cgi/dc:/usr/share/nginx/html/dc
       - /home/dot/work/docker/octopress/public:/usr/share/nginx/html/blog
+    environment:
+      VIRTUAL_HOST: dandydot.no-ip.biz
+      VIRTUAL_PORT: 80
+      LETSENCRYPT_HOST: dandydot.no-ip.biz
+      LETSENCRYPT_EMAIL: dandydot@gmail.com
     depends_on:
       - php
       - cgi
@@ -52,3 +82,7 @@ services:
       - ./mongo/db:/data/db
       - ./mongo/configdb:/data/configdb
     restart: always
+volumes: 
+  certs:
+  html:
+  vhostd:
