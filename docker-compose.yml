@@ -82,6 +82,17 @@ services:
       - ./mongo/db:/data/db
       - ./mongo/configdb:/data/configdb
     restart: always
+  blynk:
+    image: mpherg/blynk-server:latest
+    ports:
+      - "8081:8081"
+      - "8441:8441"
+      - "9443:9443"
+    volumes:
+      - ./blynk/data:/data
+      - ./blynk/server.properties:/config/server.properties
+      - certs:/etc/nginx/certs:ro
+    restart: always
 volumes: 
   certs:
   html:
