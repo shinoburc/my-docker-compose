@@ -86,7 +86,7 @@ services:
     image: mpherg/blynk-server:latest
     ports:
       - "8081:8081"
-      - "8441:8441"
+      - "8440:8440"
       - "9443:9443"
     volumes:
       - ./blynk/data:/data

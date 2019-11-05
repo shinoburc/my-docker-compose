@@ -4,5 +4,4 @@ php/dokuwiki
 mongo/configdb
 mongo/db
 octopress
-blynk/server.properties
 blynk/data
